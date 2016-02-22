@@ -7,6 +7,7 @@ const char* host = "maker.ifttt.com";     //IFTTT channel address
 int buttonState = 0;
 
 void setup() {
+  Serial.begin(115200);
   pinMode(buttonPin, INPUT_PULLUP);
   }
 
@@ -15,11 +16,13 @@ void loop() {
    buttonState = digitalRead(buttonPin);
     if (buttonState == HIGH) {                     //normally the pin is pulled down to ground
        if (value == 1){
-       // We now connect to local WIFI
+       Serial.println("We now connect to local WIFI");
        WiFi.begin(ssid, password);
        while (WiFi.status() != WL_CONNECTED) {
        delay(500);
+       Serial.print(".");
        }
+       Serial.println("\nWifi connected. IP address: "+Wifi.LocalIP());
        WiFiClient client;
        const int httpPort = 80;
        if (!client.connect(host, httpPort)) {
